@@ -1,0 +1,31 @@
+{
+  "name": "hogwarts-api",
+  "version": "1.0.1",
+  "description": "A wrap from potter api",
+  "main": "server.js",
+  "author": "Jonathan Cotta",
+  "scripts": {
+    "start": "nodemon ./src/server.js",
+    "run": "node server.js"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "nodemon": "^1.19.4",
+    "nyc": "^14.1.1"
+  },
+  "dependencies": {
+    "axios": "^0.19.2",
+    "chai": "^4.2.0",
+    "consign": "^0.1.6",
+    "express": "^4.17.1",
+    "helmet": "^3.23.3",
+    "mocha": "^6.2.3",
+    "morgan": "^1.10.0",
+    "passport": "^0.4.1",
+    "sinon": "^7.5.0",
+    "sinon-chai": "^3.5.0"
+  }
+}
