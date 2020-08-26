@@ -5,6 +5,8 @@ const consign = require('consign');
 
 const config = require('./config');
 
+require('./database');
+
 module.exports = () => {
   const app = express();
 
