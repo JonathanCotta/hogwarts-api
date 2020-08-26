@@ -1,19 +1,13 @@
 const {
   PORT,
   ENV,
-  MONGO_ADDR,
-  MONGO_USER,
-  MONGO_PWD,
-  MONGO_DB,
+  MONGO_URI,
   HOGWARTS_KEY,
 } = process.env;
 
 module.exports = {
   PORT,
   ENV,
-  MONGO_ADDR,
-  MONGO_USER,
-  MONGO_PWD,
-  MONGO_DB,
+  MONGO_URI,
   HOGWARTS_KEY,
 };

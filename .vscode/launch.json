@@ -17,10 +17,7 @@
                 "PORT": "10082",
                 "ENV": "dev",
                 "HOGWARTS_KEY": "",
-                "MONGO_ADDR": "",
-                "MONGO_USER": "",
-                "MONGO_PWD": "",
-                "MONGO_DB": "",
+                "MONGO_URI": "",
             },
         }
     ]

@@ -1,20 +1,13 @@
 const mongoose = require('mongoose');
 
-const { log } = require('console');
+const { log, error } = require('console');
 
-const {
-  MONGO_ADDR,
-  MONGO_USER,
-  MONGO_PWD,
-  MONGO_DB,
-} = process.env;
+const { MONGO_URI } = process.env;
 
-const uri = `mongodb+srv://${MONGO_USER}:${MONGO_PWD}@${MONGO_ADDR}/${MONGO_DB}?retryWrites=true&w=majority`;
+mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-
-mongoose.connection.on('connected', () => log(`Mongoose connected at ${uri}`));
-mongoose.connection.on('disconnected', () => log(`Mongoose disconnected from ${uri}`));
-mongoose.connection.on('error', (error) => log(error));
+mongoose.connection.on('connected', () => log(`Mongoose connected at ${MONGO_URI}`));
+mongoose.connection.on('disconnected', () => log(`Mongoose disconnected from ${MONGO_URI}`));
+mongoose.connection.on('error', (err) => error(err));
 
 module.exports = mongoose;
