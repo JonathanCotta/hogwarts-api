@@ -53,9 +53,18 @@ async function UpdateOne(characterId, characterObj) {
 
 async function GetOne(characterId) {
   try {
-    const result = await GetOneCharacterFromPotterAPI(characterId);
+    let data;
 
-    return result;
+    const requests = await Promise.all([
+      GetOneCharacterFromDB(characterId),
+      GetOneCharacterFromPotterAPI(characterId),
+    ]);
+
+    if (requests[0]) [data] = requests;
+
+    if (requests[1]) data = requests[1].data;
+
+    return { error: false, data };
   } catch (err) {
     error(err);
     return { error: true, data: err };
