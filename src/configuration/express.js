@@ -13,6 +13,9 @@ module.exports = () => {
   // server port configuration
   app.set('port', config.PORT);
 
+  // Log configuration
+  app.use(morgan(config.ENV));
+
   // request middlewares
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -34,8 +37,7 @@ module.exports = () => {
     .include('routes')
     .into(app);
 
-  // Log configuration
-  app.use(morgan(config.ENV));
+
 
   return app;
 };
