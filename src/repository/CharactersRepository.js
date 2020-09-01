@@ -5,6 +5,8 @@ const {
   GetOneCharacterFromPotterAPI,
 } = require('../services/CharacterService');
 
+const { GetOneHouseFromPotterApi } = require('../services/HouseService');
+
 const Character = require('../models/Character');
 
 const { error } = console;
@@ -74,19 +76,36 @@ async function GetOne(characterId) {
 async function GetAll(queryObj) {
   try {
     let totalResults = [];
+    let promisesRequests = [];
 
-    const requests = await Promise.all([
-      GetCharactersFromDB(queryObj),
-      GetCharactersFromPotterAPI(queryObj),
-    ]);
+    const isId = (value) => (value.length === 24 && /[0-9]/g.test(value));
+    const isValidArray = (value) => value instanceof Array && value.length > 0;
 
-    if (requests[0]) {
-      totalResults = [...requests[0]];
+    if (queryObj.house && isId(queryObj.house)) {
+      const houseRequest = await GetOneHouseFromPotterApi(queryObj.house);
+      const { data: houseData } = houseRequest;
+
+      if (houseData[0] && houseData[0].members) {
+        promisesRequests = houseData[0].members.map(
+          // eslint-disable-next-line no-underscore-dangle
+          (member) => GetOneCharacterFromPotterAPI(member._id),
+        );
+      }
+    } else {
+      promisesRequests.push(GetCharactersFromPotterAPI(queryObj));
     }
 
-    if (requests[1] && requests[1].data) {
-      totalResults = [...totalResults, ...requests[1].data];
-    }
+    promisesRequests.push(GetCharactersFromDB(queryObj));
+
+    const requests = await Promise.all(promisesRequests);
+
+    totalResults = requests.reduce((previous, current) => {
+      if (isValidArray(current)) return [...previous, ...current];
+      if (current.data && isValidArray(current.data)) return [...previous, ...current.data];
+      if (current.data) return [...previous, current.data];
+
+      return previous;
+    }, []);
 
     const data = {
       total: totalResults.length,
