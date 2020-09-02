@@ -102,6 +102,7 @@ async function GetAll(req, res) {
     return res.status(500).json({ error: true, data: err });
   }
 }
+
 module.exports = {
   CreateOne,
   UpdateOne,

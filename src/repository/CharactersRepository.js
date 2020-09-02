@@ -5,7 +5,7 @@ const {
   GetOneCharacterFromPotterAPI,
 } = require('../services/CharacterService');
 
-const { GetOneHouseFromPotterApi } = require('../services/HouseService');
+const { GetOneHouseFromPotterAPI } = require('../services/HouseService');
 
 const Character = require('../models/Character');
 
@@ -82,7 +82,7 @@ async function GetAll(queryObj) {
     const isValidArray = (value) => value instanceof Array && value.length > 0;
 
     if (queryObj.house && isId(queryObj.house)) {
-      const houseRequest = await GetOneHouseFromPotterApi(queryObj.house);
+      const houseRequest = await GetOneHouseFromPotterAPI(queryObj.house);
       const { data: houseData } = houseRequest;
 
       if (houseData[0] && houseData[0].members) {
