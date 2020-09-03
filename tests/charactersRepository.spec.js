@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { describe, it } = require('mocha');
 
-const CharactersRepository = require('../src/repository/CharactersRepository');
+const CharactersRepository = require('../src/repository/charactersRepository');
 
 describe('Characters Repository Test', () => {
   describe('smoke tests', () => {
