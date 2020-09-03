@@ -1,6 +1,7 @@
 const axios = require('axios');
 
-const Character = require('../models/Character');
+const Character = require('../models/character');
+const objectToParams = require('../modules/objectToParams');
 const { HOGWARTS_KEY } = require('../configuration/config');
 
 async function GetOneCharacterFromPotterAPI(characterId) {
@@ -13,13 +14,7 @@ async function GetOneCharacterFromDB(characterId) {
 }
 
 async function GetCharactersFromPotterAPI(queryObj) {
-  const urlQuery = Object.keys(queryObj).reduce((previous, current) => {
-    const newParam = `${current}=${queryObj[current]}`;
-
-    if (!previous) return `${newParam}&`;
-
-    return `${previous}${newParam}&`;
-  }, '');
+  const urlQuery = objectToParams(queryObj);
 
   const url = `https://www.potterapi.com/v1/characters?${urlQuery}key=${HOGWARTS_KEY}`;
 
