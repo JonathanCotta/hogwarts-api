@@ -16,7 +16,7 @@ const characterSchema = new Schema({
   orderOfThePhoenix: { type: Boolean, default: false },
   dumbledoresArmy: { type: Boolean, default: false },
   deathEater: { type: Boolean, default: false },
-  bloodStatus: { type: Boolean, default: false },
+  bloodStatus: { type: String, default: 'unknown' },
 });
 
 module.exports = mongoose.model('Character', characterSchema, 'characters');
