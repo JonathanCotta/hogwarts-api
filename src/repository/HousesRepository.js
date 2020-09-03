@@ -3,13 +3,13 @@ const { error } = console;
 const {
   GetOneHouseFromPotterAPI,
   GetHousesFromPotterAPI,
-} = require('../services/HouseService');
+} = require('../services/houseService');
 
 async function GetOne(houseId) {
   try {
     const request = await GetOneHouseFromPotterAPI(houseId);
 
-    return { error: false, data: request.data };
+    return { error: false, data: request.data[0] };
   } catch (err) {
     error(err);
     return { error: true, data: err };
@@ -21,6 +21,7 @@ async function GetAll(queryObj) {
     const request = await GetHousesFromPotterAPI(queryObj);
 
     return {
+      error: false,
       total: request.data ? request.data.length : 0,
       data: request.data,
     };
