@@ -1,4 +1,4 @@
-const repository = require('../repository/CharactersRepository');
+const repository = require('../repository/charactersRepository');
 
 const { error } = console;
 

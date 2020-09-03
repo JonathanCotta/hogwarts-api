@@ -1,7 +1,7 @@
 const {
   GetOne,
   GetAll,
-} = require('../controllers/HousesController');
+} = require('../controllers/housesController');
 
 module.exports = (app) => {
   app.get('/api/v1/house/:id', GetOne);

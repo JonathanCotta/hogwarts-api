@@ -1,6 +1,6 @@
 const { error } = console;
 
-const repository = require('../repository/HousesRepository');
+const repository = require('../repository/housesRepository');
 
 async function GetOne(req, res) {
   const { params: { id } } = req;

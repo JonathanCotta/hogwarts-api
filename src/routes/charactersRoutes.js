@@ -4,7 +4,7 @@ const {
   UpdateOne,
   RemoveOne,
   GetAll,
-} = require('../controllers/CharactersController');
+} = require('../controllers/charactersController');
 
 module.exports = (app) => {
   app.post('/api/v1/character', CreateOne);
