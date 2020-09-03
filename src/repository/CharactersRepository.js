@@ -3,11 +3,11 @@ const {
   GetOneCharacterFromDB,
   GetCharactersFromPotterAPI,
   GetOneCharacterFromPotterAPI,
-} = require('../services/CharacterService');
+} = require('../services/characterService');
 
-const { GetOneHouseFromPotterAPI } = require('../services/HouseService');
+const { GetOneHouseFromPotterAPI } = require('../services/houseService');
 
-const Character = require('../models/Character');
+const Character = require('../models/character');
 
 const { error } = console;
 
@@ -85,8 +85,8 @@ async function GetAll(queryObj) {
       const houseRequest = await GetOneHouseFromPotterAPI(queryObj.house);
       const { data: houseData } = houseRequest;
 
-      if (houseData[0] && houseData[0].members) {
-        promisesRequests = houseData[0].members.map(
+      if (houseData && houseData.members) {
+        promisesRequests = houseData.members.map(
           // eslint-disable-next-line no-underscore-dangle
           (member) => GetOneCharacterFromPotterAPI(member._id),
         );
@@ -108,6 +108,7 @@ async function GetAll(queryObj) {
     }, []);
 
     const data = {
+      error: false,
       total: totalResults.length,
       data: totalResults,
     };
