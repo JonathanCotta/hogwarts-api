@@ -1,6 +1,8 @@
 const { expect } = require('chai');
 const { describe, it } = require('mocha');
 
+require('dotenv/config');
+
 const CharactersRepository = require('../src/repository/charactersRepository');
 
 describe('Characters Repository Test', () => {
