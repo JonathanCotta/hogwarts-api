@@ -4,7 +4,11 @@ const { log, error } = require('console');
 
 const { MONGO_URI } = process.env;
 
-mongoose.connect(MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+});
 
 mongoose.connection.on('connected', () => log(`Mongoose connected at ${MONGO_URI}`));
 mongoose.connection.on('disconnected', () => log(`Mongoose disconnected from ${MONGO_URI}`));
