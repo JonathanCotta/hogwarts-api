@@ -37,7 +37,5 @@ module.exports = () => {
     .include('routes')
     .into(app);
 
-
-
   return app;
 };
