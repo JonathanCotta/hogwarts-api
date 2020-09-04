@@ -5,6 +5,11 @@ const {
   GetHousesFromPotterAPI,
 } = require('../services/houseService');
 
+/**
+ * Get a house from PotterAPI matching the id
+ * @param {string} houseId house id
+ * @return {object} return an object containing error and data
+ */
 async function GetOne(houseId) {
   try {
     const request = await GetOneHouseFromPotterAPI(houseId);
@@ -16,6 +21,11 @@ async function GetOne(houseId) {
   }
 }
 
+/**
+ * Get all houses from PotterAPI matching filter
+ * @param {object} queryObj filter query object
+ * @return {object} return an object containing error and data
+ */
 async function GetAll(queryObj) {
   try {
     const request = await GetHousesFromPotterAPI(queryObj);

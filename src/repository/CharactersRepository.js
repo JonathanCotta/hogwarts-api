@@ -11,6 +11,11 @@ const Character = require('../models/character');
 
 const { error } = console;
 
+/**
+ * Create a character in MongoDB
+ * @param {object} characterObj character valid model object
+ * @return {object} return an object containing error and data
+ */
 async function CreateOne(characterObj) {
   try {
     const newCharacter = await Character.create(characterObj);
@@ -22,6 +27,11 @@ async function CreateOne(characterObj) {
   }
 }
 
+/**
+ * Remove from MongoDB a character matching id
+ * @param {string} characterId character id
+ * @return {object} return an object containing error and data
+ */
 async function RemoveOne(characterId) {
   try {
     const reuslt = await Character.deleteOne({ _id: characterId });
@@ -35,6 +45,12 @@ async function RemoveOne(characterId) {
   }
 }
 
+/**
+ * Update a character from MongoDB matching the id
+ * @param {string} characterId character id
+ * @param {object} characterObj character valid model object
+ * @return {object} return an object containing error and data
+ */
 async function UpdateOne(characterId, characterObj) {
   try {
     const queryConfig = { new: true, lean: true };
@@ -53,6 +69,11 @@ async function UpdateOne(characterId, characterObj) {
   }
 }
 
+/**
+ * Get a character from MongoDB or PotterAPI matching the id
+ * @param {string} characterId character id
+ * @return {object} return an object containing error and data
+ */
 async function GetOne(characterId) {
   try {
     let data;
@@ -73,6 +94,11 @@ async function GetOne(characterId) {
   }
 }
 
+/**
+ * Get all characters from MongoDB or PotterAPI matching filter
+ * @param {object} queryObj filter query object
+ * @return {object} return an object containing error and data
+ */
 async function GetAll(queryObj) {
   try {
     let totalResults = [];
