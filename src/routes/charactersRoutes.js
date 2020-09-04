@@ -7,9 +7,9 @@ const {
 } = require('../controllers/charactersController');
 
 module.exports = (app) => {
-  app.post('/api/v1/character', CreateOne);
-  app.get('/api/v1/character/:id', GetOne);
-  app.put('/api/v1/character/:id', UpdateOne);
-  app.delete('/api/v1/character/:id', RemoveOne);
-  app.get('/api/v1/characters', GetAll);
+  app.post('/hogwarts/v1/character', CreateOne);
+  app.get('/hogwarts/v1/character/:id', GetOne);
+  app.put('/hogwarts/v1/character/:id', UpdateOne);
+  app.delete('/hogwarts/v1/character/:id', RemoveOne);
+  app.get('/hogwarts/v1/characters', GetAll);
 };
