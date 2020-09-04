@@ -1,6 +1,6 @@
 # Hogwarts API
 
-A wrapper from [Potter API](https://potterapi.com/) using MongoDB as persistence.
+A [Potter API](https://potterapi.com/) wrapper using MongoDB as persistence.
 
 ## Getting ready
 ### Installing
