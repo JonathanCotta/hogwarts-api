@@ -28,6 +28,8 @@
     "mocha": "^6.2.3",
     "mongoose": "^5.10.0",
     "morgan": "^1.10.0",
-    "passport": "^0.4.1"
+    "passport": "^0.4.1",
+    "sinon": "^9.0.3",
+    "sinon-chai": "^3.5.0"
   }
 }
