@@ -85,7 +85,7 @@ async function GetOne(characterId) {
 
     if (requests[0]) [data] = requests;
 
-    if (requests[1]) data = requests[1].data;
+    if (requests[1]) [data] = requests[1].data;
 
     return { error: false, data };
   } catch (err) {
@@ -134,9 +134,8 @@ async function GetAll(queryObj) {
     }, []);
 
     const data = {
-      error: false,
       total: totalResults.length,
-      data: totalResults,
+      list: totalResults,
     };
 
     return { error: false, data };
