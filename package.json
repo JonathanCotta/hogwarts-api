@@ -22,7 +22,6 @@
     "axios": "^0.19.2",
     "chai": "^4.2.0",
     "consign": "^0.1.6",
-    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "helmet": "^3.23.3",
     "mocha": "^6.2.3",
@@ -30,6 +29,7 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "sinon": "^9.0.3",
-    "sinon-chai": "^3.5.0"
+    "sinon-chai": "^3.5.0",
+    "sinon-mongoose": "^2.3.0"
   }
 }

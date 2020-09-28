@@ -3,6 +3,7 @@ const {
   it,
   before,
   afterEach,
+  after,
 } = require('mocha');
 const chai = require('chai');
 const sinon = require('sinon');
@@ -26,6 +27,10 @@ describe('Houses Repository Test', () => {
 
   afterEach(() => {
     stubGetRequest.resetHistory();
+  });
+
+  after(() => {
+    stubGetRequest.restore();
   });
 
   describe('smoke tests', () => {

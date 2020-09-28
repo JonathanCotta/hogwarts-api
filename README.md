@@ -21,8 +21,6 @@ A [Potter API](https://potterapi.com/) wrapper using MongoDB as persistence.
 
 - Configuring to run with Visual Studio Code
 		 - Just put those environment variables in ***env*** property at ***launch.json*** file at ***.vscode*** folder
- - Configuring Tests
-		 - For running automated tests you will need to put ***HOGWARTS_API*** and ***MONGO_URI*** in a ***.env*** file in the project main folder
 
 ## Testing
 The project is already shipped with some tests that you can run with the commands below:
