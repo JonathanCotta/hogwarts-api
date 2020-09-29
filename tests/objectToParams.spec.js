@@ -1,7 +1,7 @@
 const { expect } = require('chai');
 const { describe, it, before } = require('mocha');
 
-const objectToParams = require('../src/modules/objectToParams');
+const util = require('../src/modules/objectToParams');
 
 const queryObject = { name: 'harry' };
 
@@ -9,7 +9,7 @@ describe('objectToParams tests', () => {
   let result;
 
   before(() => {
-    result = objectToParams(queryObject);
+    result = util.objectToParams(queryObject);
   });
 
   it('Should return a string', () => {

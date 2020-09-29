@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const Character = require('../models/character');
-const objectToParams = require('../modules/objectToParams');
+const { objectToParams } = require('../modules/objectToParams');
 const { HOGWARTS_KEY } = require('../configuration/config');
 
 /**
