@@ -2,7 +2,7 @@
  * @param {object} queryObj query object
  * @returns {string} url query params
 */
-function objectToParams(queryObj) {
+function convert(queryObj) {
   return (Object.keys(queryObj).reduce((previous, current) => {
     const newParam = `${current}=${queryObj[current]}`;
 
@@ -12,4 +12,4 @@ function objectToParams(queryObj) {
   }, ''));
 }
 
-module.exports = { objectToParams };
+module.exports = { convert };
