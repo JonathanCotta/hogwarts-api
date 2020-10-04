@@ -1,10 +1,12 @@
 const {
   describe,
   it,
+  beforeEach,
   before,
   afterEach,
   after,
 } = require('mocha');
+
 const chai = require('chai');
 const axios = require('axios');
 const sinon = require('sinon');
@@ -30,18 +32,22 @@ const characterObject = {
 describe('Characters Repository Test', () => {
   let stubGetRequest;
   let characterMock;
+
   before(() => {
     stubGetRequest = sinon.stub(axios, 'get').resolves({ data: [{}] });
+  });
+
+  beforeEach(() => {
     characterMock = sinon.mock(Character);
   });
 
   afterEach(() => {
     stubGetRequest.resetHistory();
+    characterMock.restore();
   });
 
   after(() => {
     stubGetRequest.restore();
-    characterMock.restore();
   });
 
   describe('smoke tests', () => {
@@ -77,7 +83,7 @@ describe('Characters Repository Test', () => {
 
   describe('CharactersRepository.GetOne tests', () => {
     it('shoud be a promise', async () => {
-      const result = CharactersRepository.GetOne(characterObject.id);
+      const result = CharactersRepository.GetOne();
 
       expect(result).to.be.a('promise');
     });
