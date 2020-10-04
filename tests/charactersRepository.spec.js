@@ -1,15 +1,27 @@
-const { expect } = require('chai');
-const { describe, it } = require('mocha');
+const {
+  describe,
+  it,
+  beforeEach,
+  before,
+  afterEach,
+  after,
+} = require('mocha');
 
-require('dotenv/config');
-require('../src/configuration/database');
+const chai = require('chai');
+const axios = require('axios');
+const sinon = require('sinon');
+const sinonChai = require('sinon-chai');
+
+require('../src/modules/sinon-mongoose');
+
+chai.use(sinonChai);
+const { expect } = chai;
 
 const CharactersRepository = require('../src/repository/charactersRepository');
+const Character = require('../src/models/character');
 
-const characterId = '5a0fa6bbae5bc100213c2334';
-const characterQueryParams = { house: 'Slytherin' };
-const characterMock = {
-  _id: '5a0fa6bbae5bc100213c2334',
+const characterObject = {
+  id: '5a0fa6bbae5bc100213c2334',
   name: 'Phineas Nigellus Black',
   role: '(Formerly) Headmaster of Hogwarts',
   house: 'Slytherin',
@@ -18,6 +30,26 @@ const characterMock = {
 };
 
 describe('Characters Repository Test', () => {
+  let stubGetRequest;
+  let characterMock;
+
+  before(() => {
+    stubGetRequest = sinon.stub(axios, 'get').resolves({ data: [{}] });
+  });
+
+  beforeEach(() => {
+    characterMock = sinon.mock(Character);
+  });
+
+  afterEach(() => {
+    stubGetRequest.resetHistory();
+    characterMock.restore();
+  });
+
+  after(() => {
+    stubGetRequest.restore();
+  });
+
   describe('smoke tests', () => {
     it('shoud be an object', () => {
       expect(CharactersRepository).to.be.a('object');
@@ -50,45 +82,126 @@ describe('Characters Repository Test', () => {
   });
 
   describe('CharactersRepository.GetOne tests', () => {
-    it('shoud return an object', async () => {
-      const result = CharactersRepository.GetOne(characterId);
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.GetOne();
 
       expect(result).to.be.a('promise');
+    });
+
+    it('should return an object', async () => {
+      characterMock.expects('findById').chain('lean');
+
+      const retunedValue = await CharactersRepository.GetOne(characterObject.id);
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('object');
     });
   });
 
   describe('CharactersRepository.GetAll tests', () => {
-    it('shoud return an object', async () => {
-      const result = CharactersRepository.GetAll(characterQueryParams);
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.GetAll({ house: characterObject.house });
 
       expect(result).to.be.a('promise');
     });
+
+    it('should return an object', async () => {
+      characterMock.expects('find').chain('lean').resolves([]);
+
+      const retunedValue = await CharactersRepository.GetAll({ house: characterObject.house });
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('object');
+      expect(retunedValue.data).to.have.property('total');
+      expect(retunedValue.data.total).to.be.a('number');
+      expect(retunedValue.data).to.have.property('list');
+      expect(retunedValue.data.list).to.be.a('array');
+    });
   });
 
-  describe('Expected return values', () => {
-    it('should return a promise from GetOneCharacterFromPotterAPI', () => {
-      const retunedValue = CharactersRepository.GetOne(characterId);
-      expect(retunedValue).to.be.a('promise');
+  describe('CharactersRepository.GetOne tests', () => {
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.GetOne(characterObject.id);
+
+      expect(result).to.be.a('promise');
     });
 
-    it('should return a promise from GetOneCharacterFromDB', () => {
-      const retunedValue = CharactersRepository.GetAll(characterQueryParams);
-      expect(retunedValue).to.be.a('promise');
+    it('should return an object', async () => {
+      characterMock.expects('findById').chain('lean');
+
+      const retunedValue = await CharactersRepository.GetOne(characterObject.id);
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('object');
+    });
+  });
+
+  describe('CharactersRepository.CreateOne tests', () => {
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.CreateOne(characterObject);
+
+      expect(result).to.be.a('promise');
     });
 
-    it('should return a promise from GetCharactersFromPotterAPI', () => {
-      const retunedValue = CharactersRepository.CreateOne(characterMock);
-      expect(retunedValue).to.be.a('promise');
+    it('should return an object', async () => {
+      characterMock.expects('create').resolves({});
+
+      const retunedValue = await CharactersRepository.CreateOne(characterObject);
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('object');
+    });
+  });
+
+  describe('CharactersRepository.RemoveOne tests', () => {
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.RemoveOne(characterObject.id);
+
+      expect(result).to.be.a('promise');
     });
 
-    it('should return a promise from GetCharactersFromDB', () => {
-      const retunedValue = CharactersRepository.RemoveOne(characterId);
-      expect(retunedValue).to.be.a('promise');
+    it('should return an object', async () => {
+      characterMock.expects('deleteOne').resolves({ deletedCount: 1 });
+
+      const retunedValue = await CharactersRepository.RemoveOne(characterObject.id);
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('string');
+    });
+  });
+
+  describe('CharactersRepository.UpdateOne tests', () => {
+    it('shoud be a promise', async () => {
+      const result = CharactersRepository.UpdateOne(characterObject.id);
+
+      expect(result).to.be.a('promise');
     });
 
-    it('should return a promise from GetCharactersFromDB', () => {
-      const retunedValue = CharactersRepository.UpdateOne(characterId, characterMock);
-      expect(retunedValue).to.be.a('promise');
+    it('should return an object', async () => {
+      characterMock.expects('findByIdAndUpdate').resolves({});
+
+      const retunedValue = await CharactersRepository.UpdateOne(characterObject.id);
+
+      expect(retunedValue).to.be.a('object');
+      expect(retunedValue).to.have.property('error');
+      expect(retunedValue.error).to.be.a('boolean');
+      expect(retunedValue).to.have.property('data');
+      expect(retunedValue.data).to.be.a('object');
     });
   });
 });

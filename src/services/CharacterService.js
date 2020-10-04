@@ -1,7 +1,7 @@
 const axios = require('axios');
 
 const Character = require('../models/character');
-const objectToParams = require('../modules/objectToParams');
+const { convert: convertToParams } = require('../modules/objectToParams');
 const { HOGWARTS_KEY } = require('../configuration/config');
 
 /**
@@ -29,7 +29,7 @@ async function GetOneCharacterFromDB(characterId) {
 *@returns {Promise} axios get request
 */
 async function GetCharactersFromPotterAPI(queryObj) {
-  const urlQuery = objectToParams(queryObj);
+  const urlQuery = convertToParams(queryObj);
 
   const url = `https://www.potterapi.com/v1/characters?${urlQuery}key=${HOGWARTS_KEY}`;
 
