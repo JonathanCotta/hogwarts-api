@@ -1,3 +1,4 @@
+/* eslint-disable prefer-rest-params */
 const sinon = require('sinon');
 const mongoose = require('mongoose');
 
@@ -16,10 +17,12 @@ function makeChainable(mockArg, object, mockTypeArg) {
   const mock = mockArg;
   const expectsMethod = mock.expects;
 
+  // eslint-disable-next-line func-names
   mock.expects = function (method) {
     const mockType = mockTypeArg || getMethodType(method);
     const expectation = expectsMethod.apply(mock, arguments);
     expectation.owner = mock;
+    // eslint-disable-next-line no-use-before-define
     expectation.chain = chainMethod(mockType, object).bind(expectation);
     return expectation;
   };
@@ -85,6 +88,7 @@ const newMock = function mock(object) {
 sinon.mock = newMock;
 
 function sandboxMock(object) {
+  // eslint-disable-next-line prefer-spread
   const mockResult = oldMock.apply(null, arguments);
 
   if (
