@@ -81,7 +81,7 @@ describe('Houses Repository Test', () => {
       expect(result).to.have.property('error');
       expect(result.error).to.be.a('boolean');
       expect(result).to.have.property('data');
-      expect(result.data).to.be.a('array');
+      expect(result.data).to.be.a('object');
     });
   });
 });

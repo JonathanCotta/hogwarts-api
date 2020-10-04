@@ -1,6 +1,5 @@
+const { report } = require('../modules/errorReport');
 const repository = require('../repository/charactersRepository');
-
-const { error } = console;
 
 async function CreateOne(req, res) {
   const { body: { character } } = req;
@@ -16,8 +15,7 @@ async function CreateOne(req, res) {
 
     return res.status(200).json({ ...result, message: 'Character succefully created' });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
@@ -39,8 +37,7 @@ async function UpdateOne(req, res) {
 
     return res.status(200).json({ ...result, message: 'Character succefully updated' });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
@@ -58,8 +55,7 @@ async function RemoveOne(req, res) {
 
     return res.status(200).json({ ...result, message: 'Character succefully removed' });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
@@ -78,8 +74,7 @@ async function GetOne(req, res) {
 
     return res.status(200).json({ ...result });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
@@ -98,8 +93,7 @@ async function GetAll(req, res) {
 
     return res.status(200).json({ ...result });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 

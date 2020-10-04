@@ -1,9 +1,8 @@
-const { error } = console;
-
 const {
   GetOneHouseFromPotterAPI,
   GetHousesFromPotterAPI,
 } = require('../services/houseService');
+const { asyncFunction } = require('../modules/safeExecution');
 
 /**
  * Get a house from PotterAPI matching the id
@@ -11,14 +10,11 @@ const {
  * @return {object} return an object containing error and data
  */
 async function GetOne(houseId) {
-  try {
+  return asyncFunction(async () => {
     const request = await GetOneHouseFromPotterAPI(houseId);
 
-    return { error: false, data: request.data[0] };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+    return request.data[0];
+  })(houseId);
 }
 
 /**
@@ -27,21 +23,14 @@ async function GetOne(houseId) {
  * @return {object} return an object containing error and data
  */
 async function GetAll(queryObj) {
-  try {
+  return asyncFunction(async () => {
     const request = await GetHousesFromPotterAPI(queryObj);
 
     return {
-      error: false,
       total: request.data ? request.data.length : 0,
       data: request.data,
     };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+  })(queryObj);
 }
 
-module.exports = {
-  GetOne,
-  GetAll,
-};
+module.exports = { GetOne, GetAll };

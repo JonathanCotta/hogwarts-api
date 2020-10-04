@@ -1,5 +1,4 @@
-const { error } = console;
-
+const { report } = require('../modules/errorReport');
 const repository = require('../repository/housesRepository');
 
 async function GetOne(req, res) {
@@ -17,8 +16,7 @@ async function GetOne(req, res) {
 
     return res.status(200).json({ ...result });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
@@ -37,12 +35,8 @@ async function GetAll(req, res) {
 
     return res.status(200).json({ ...result });
   } catch (err) {
-    error(err);
-    return res.status(500).json({ error: true, data: err });
+    return res.status(500).json(report(err));
   }
 }
 
-module.exports = {
-  GetOne,
-  GetAll,
-};
+module.exports = { GetOne, GetAll };

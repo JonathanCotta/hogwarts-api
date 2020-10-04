@@ -4,12 +4,10 @@ const {
   GetCharactersFromPotterAPI,
   GetOneCharacterFromPotterAPI,
 } = require('../services/characterService');
-
+const { asyncFunction } = require('../modules/safeExecution');
 const { GetOneHouseFromPotterAPI } = require('../services/houseService');
 
 const Character = require('../models/character');
-
-const { error } = console;
 
 /**
  * Create a character in MongoDB
@@ -17,14 +15,11 @@ const { error } = console;
  * @return {object} return an object containing error and data
  */
 async function CreateOne(characterObj) {
-  try {
+  return asyncFunction(async () => {
     const newCharacter = await Character.create(characterObj);
 
-    return { error: false, data: newCharacter };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+    return newCharacter;
+  })(characterObj);
 }
 
 /**
@@ -33,16 +28,13 @@ async function CreateOne(characterObj) {
  * @return {object} return an object containing error and data
  */
 async function RemoveOne(characterId) {
-  try {
+  return asyncFunction(async () => {
     const reuslt = await Character.deleteOne({ _id: characterId });
 
     if (reuslt.deletedCount === 0) return { error: false, data: 'No character was removed' };
 
-    return { error: false, data: 'Character removed' };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+    return 'Character removed';
+  })(characterId);
 }
 
 /**
@@ -52,7 +44,7 @@ async function RemoveOne(characterId) {
  * @return {object} return an object containing error and data
  */
 async function UpdateOne(characterId, characterObj) {
-  try {
+  return asyncFunction(async () => {
     const queryConfig = { new: true, lean: true };
     const updatedCharacter = await Character.findByIdAndUpdate(
       characterId,
@@ -62,11 +54,8 @@ async function UpdateOne(characterId, characterObj) {
 
     if (!updatedCharacter) return { error: false, data: 'No character was updated' };
 
-    return { error: false, data: updatedCharacter };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+    return updatedCharacter;
+  })(characterId, characterObj);
 }
 
 /**
@@ -75,7 +64,7 @@ async function UpdateOne(characterId, characterObj) {
  * @return {object} return an object containing error and data
  */
 async function GetOne(characterId) {
-  try {
+  return asyncFunction(async () => {
     let data;
 
     const requests = await Promise.all([
@@ -87,11 +76,8 @@ async function GetOne(characterId) {
 
     if (requests[1]) [data] = requests[1].data;
 
-    return { error: false, data };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+    return data;
+  })(characterId);
 }
 
 /**
@@ -100,7 +86,7 @@ async function GetOne(characterId) {
  * @return {object} return an object containing error and data
  */
 async function GetAll(queryObj) {
-  try {
+  return asyncFunction(async () => {
     let totalResults = [];
     let promisesRequests = [];
 
@@ -133,16 +119,11 @@ async function GetAll(queryObj) {
       return previous;
     }, []);
 
-    const data = {
+    return {
       total: totalResults.length,
       list: totalResults,
     };
-
-    return { error: false, data };
-  } catch (err) {
-    error(err);
-    return { error: true, data: err };
-  }
+  })(queryObj);
 }
 
 module.exports = {
